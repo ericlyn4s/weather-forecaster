@@ -1,6 +1,9 @@
 var searchHistoryEl = document.querySelector('#search-history');
 var sample = ["a","e","i","o","u"];
 var fetchButton = document.getElementById('fetch-button');
+var APIKey = '06c97fb0689d512139bb0576c61f8276';
+var city = "Denver";
+var queryURL = "http://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + APIKey;
 
 // Create a button and add text & a link of previously searched cities
 for (var i=0; i<sample.length; i++) {
@@ -10,14 +13,10 @@ for (var i=0; i<sample.length; i++) {
 }
 
 function getApi() {
-    var requestUrl = 'https://api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&appid={API key}'
+  
+fetch(queryURL);
+console.log('success');
 
-fetch(requestUrl)
-
-    .then(function (response) {
-        return response.json();
-    })
-    .then(console.log('yes'));
 };
 
 fetchButton.addEventListener('click',getApi);
