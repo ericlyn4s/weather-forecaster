@@ -17,3 +17,7 @@ button, input {
 #search-history {
     padding-top: 10px;
 }
+
+#city-block, #five-forecast {
+    border: solid gray;
+}

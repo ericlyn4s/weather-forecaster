@@ -8,21 +8,33 @@
     <title>Weather Forecaster</title>
 </head>
 <body>
-    <header">
+    <header>
         <div class="row p-2  bg-info text-white">
            <div class="d-flex justify-content-center">
                 <h1>Weather Dashboard</h1>
             </div>
         </div>
     </header>
-    <div class="col-3 m-4">
-        <h3><b>Search for a City:</b></h3>
-        <input placeholder="Denver">
-        <section id="search-area">
-            <button class="search mt-2 bg-info" id="fetch-button" style="display: block;">Search</button>
-        </section>
-        <div id="search-history">
+    <div class="row">
+        <div class="col-3 m-4">
+            <h3><b>Search for a City:</b></h3>
+            <input placeholder="Denver">
+            <section id="search-area">
+                <button class="search mt-2 bg-info" id="fetch-button" style="display: block;">Search</button>
+            </section>
+            <div id="search-history">
+            </div>
         </div>
+        <div class="col">
+            <div class="row m-4" id="city-block">
+                <h3 id="city-name"><b></b></h3>
+                <h4 id="city-temp">Temp: </h4>
+                <h4 id="city-wind">Wind: </h4>
+                <h4 id="city-humidity">Hunidity: </h4>
+            </div>
+            <div class="row m-4" id="five-forecast">   
+        </div>
+    </div>
     </div>
     
     <script src="assets/js/script.js"></script>
