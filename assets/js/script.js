@@ -1,29 +1,47 @@
 var searchHistoryEl = document.querySelector('#search-history');
-var sample = ["a","e","i","o","u"];
 var fetchButton = document.getElementById('fetch-button');
 var cityInput = document.getElementById('city-input');
 var APIKey = '06c97fb0689d512139bb0576c61f8276';
+var newCity = [];
 var temp;
 var wind;
 var humidity;
 var state;
-var fcTemp;
-var fcWind;
-var fcHumidity;
-var count;
 
 // Create a button and add text & a link of previously searched cities
-for (var i=0; i<sample.length; i++) {
-    var historyItem = document.createElement('button');
-    historyItem.textContent = sample[i];
-    searchHistoryEl.appendChild(historyItem);
-}
+function searchHistoryRender() {
+    var searchHistory = JSON.parse(localStorage.getItem('history'))||[];
+    if (searchHistory.length > 0) {
+        while (searchHistoryEl.firstChild) {
+            searchHistoryEl.removeChild(searchHistoryEl.firstChild);
+        } for (var i=0; i<searchHistory.length; i++) {    
+            var historyItem = document.createElement('button');
+            historyItem.textContent = searchHistory[i];
+            searchHistoryEl.appendChild(historyItem);
+        }
+    }
+};
+
+// Add event listener for city history section
+searchHistoryEl.addEventListener('click', cityCheck);
+// Check if click in the city history section was on an actual button. If so, requery the site with that city name
+function cityCheck(event) {
+    var element = event.target;
+    if (element.matches('button') === true) {
+        console.log(element.textContent);
+        cityInput.value = element.textContent;
+        getApi();
+    }
+};
 
 // Load weather data for input city when the 'search' button is pressed
-function getApi() {
+function getApi(city) {
 
     // Get input value, or default to "Denver"
     var city = cityInput.value || "Denver";
+    newCity.push(city);
+    localStorage.setItem('history', JSON.stringify(newCity));
+    
 
     // Render current weather information for city
     function currentCityRender() {
@@ -38,37 +56,11 @@ function getApi() {
         cityWindEl.textContent = "Wind: ";
         cityHumidityEl.textContent = "Humidity: ";
         // Populate divs with new city weather variables
-        cityNameEl.textContent = city + ", " + state;
+        cityNameEl.textContent = city.charAt(0).toUpperCase() + city.slice(1) + ", " + state + " (" + dayjs().format('MM/DD/YYYY') + ")";
         cityTempEl.textContent += temp + "°F";
         cityWindEl.textContent += wind + " mph";
         cityHumidityEl.textContent += humidity + "%";
     }
-
-    function fiveForecastRender() {
-        var translator = ["one","two","three","four","five"];
-        var numWord = translator[count];
-        fcDateEl = document.querySelector("#"+numWord+"-date");
-        var fcCityIconEl = document.querySelector("#"+numWord+"-icon");
-        var fcCityTempEl= document.querySelector("#"+numWord+"-temp");
-        var fcCityWindEl = document.querySelector("#"+numWord+"-wind");
-        var fcCityHumidityEl = document.querySelector("#"+numWord+"-humidity");
-
-        console.log(numWord);
-        /*
-        // Ensure text content of these divs is cleared out
-        fcCityTempEl.textContent = "Temp: ";
-        fcCityWindEl.textContent = "Wind: ";
-        fcCityHumidityEl.textContent = "Humidity: ";
-        // Populate divs with new forecasted weather variables
-        fcDateEl.textContent = Date().substring(4,15);
-        fcCityIconEl.setAttribute("src", weatherIcon);
-        fcCityTempEl.textContent += fcTemp + "°F";
-        fcCityWindEl.textContent += fcWind + " mph";
-        fcCityHumidityEl.textContent += fcHumidity + "%";
-        */
-    }
-
-    
 
     // Get lat and long coordinates of city
     var latLonQuery = "http://api.openweathermap.org/geo/1.0/direct?q=" + city + "&limit=1&appid=" + APIKey;
@@ -93,22 +85,80 @@ function getApi() {
             })
             // Pass lat and long coordinated into five-day forecast query
             var fiveForecastQuery = "http://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&appid=" + APIKey + "&units=imperial";
-            for (i=0; i<6; i++) {
-                count++;
-                fetch(fiveForecastQuery)
-                .then(function (response) {
-                    return response.json()
-                }).then ( function(data) {
-                    fcWeatherIcon = "https://openweathermap.org/img/wn/" + data.list[i].weather[0].icon + "@2x.png";
-                    fcTemp = Math.round(data.list[i].main.temp);
-                    fcWind = Math.round(data.list[i].wind.speed);
-                    fcHumidity = Math.round(data.list[i].main.humidity);
-                    fiveForecastRender();
-            })
-            }
-            });
-            
+            fetch(fiveForecastQuery)
+            .then(function (response) {
+                return response.json()
+            }).then ( function(data) {    
+                // 1st forecasted day
+                var fcDateEl = document.querySelector("#one-date");
+                var fcCityIconEl = document.querySelector("#one-icon");
+                var fcCityTempEl= document.querySelector("#one-temp");
+                var fcCityWindEl = document.querySelector("#one-wind");
+                var fcCityHumidityEl = document.querySelector("#one-humidity");
+                // Ensure text content of these divs is cleared out
+                fcDateEl.textContent = dayjs().add(1, 'day').format('MM/DD/YYYY');
+                fcCityIconEl.setAttribute("src", "https://openweathermap.org/img/wn/" + data.list[0].weather[0].icon + "@2x.png");
+                fcCityTempEl.textContent = "Temp: " + Math.round(data.list[0].main.temp) + "°F";
+                fcCityWindEl.textContent = "Wind: " + Math.round(data.list[0].wind.speed) + " mph";
+                fcCityHumidityEl.textContent = "Humidity: " + Math.round(data.list[0].main.humidity) + "%";               
+              
+                // 2nd forecasted day, override the existing variables with new data
+                fcDateEl = document.querySelector("#two-date");
+                fcCityIconEl = document.querySelector("#two-icon");
+                fcCityTempEl= document.querySelector("#two-temp");
+                fcCityWindEl = document.querySelector("#two-wind");
+                fcCityHumidityEl = document.querySelector("#two-humidity");
+                // Ensure text content of these divs is cleared out
+                fcDateEl.textContent = dayjs().add(2, 'day').format('MM/DD/YYYY');
+                fcCityIconEl.setAttribute("src", "https://openweathermap.org/img/wn/" + data.list[1].weather[0].icon + "@2x.png");
+                fcCityTempEl.textContent = "Temp: " + Math.round(data.list[1].main.temp) + "°F";
+                fcCityWindEl.textContent = "Wind: " + Math.round(data.list[1].wind.speed) + " mph";
+                fcCityHumidityEl.textContent = "Humidity: " + Math.round(data.list[1].main.humidity) + "%"; 
+
+                // 3rd forecasted day, override the existing variables with new data
+                fcDateEl = document.querySelector("#three-date");
+                fcCityIconEl = document.querySelector("#three-icon");
+                fcCityTempEl= document.querySelector("#three-temp");
+                fcCityWindEl = document.querySelector("#three-wind");
+                fcCityHumidityEl = document.querySelector("#three-humidity");
+                // Ensure text content of these divs is cleared out
+                fcDateEl.textContent = dayjs().add(3, 'day').format('MM/DD/YYYY');
+                fcCityIconEl.setAttribute("src", "https://openweathermap.org/img/wn/" + data.list[2].weather[0].icon + "@2x.png");
+                fcCityTempEl.textContent = "Temp: " + Math.round(data.list[2].main.temp) + "°F";
+                fcCityWindEl.textContent = "Wind: " + Math.round(data.list[2].wind.speed) + " mph";
+                fcCityHumidityEl.textContent = "Humidity: " + Math.round(data.list[2].main.humidity) + "%"; 
+
+                 // 4th forecasted day, override the existing variables with new data
+                 fcDateEl = document.querySelector("#four-date");
+                 fcCityIconEl = document.querySelector("#four-icon");
+                 fcCityTempEl= document.querySelector("#four-temp");
+                 fcCityWindEl = document.querySelector("#four-wind");
+                 fcCityHumidityEl = document.querySelector("#four-humidity");
+                 // Ensure text content of these divs is cleared out
+                 fcDateEl.textContent = dayjs().add(4, 'day').format('MM/DD/YYYY');
+                 fcCityIconEl.setAttribute("src", "https://openweathermap.org/img/wn/" + data.list[3].weather[0].icon + "@2x.png");
+                 fcCityTempEl.textContent = "Temp: " + Math.round(data.list[3].main.temp) + "°F";
+                 fcCityWindEl.textContent = "Wind: " + Math.round(data.list[3].wind.speed) + " mph";
+                 fcCityHumidityEl.textContent = "Humidity: " + Math.round(data.list[3].main.humidity) + "%"; 
+
+                 // 5th forecasted day, override the existing variables with new data
+                 fcDateEl = document.querySelector("#five-date");
+                 fcCityIconEl = document.querySelector("#five-icon");
+                 fcCityTempEl= document.querySelector("#five-temp");
+                 fcCityWindEl = document.querySelector("#five-wind");
+                 fcCityHumidityEl = document.querySelector("#five-humidity");
+                 // Ensure text content of these divs is cleared out
+                 fcDateEl.textContent = dayjs().add(5, 'day').format('MM/DD/YYYY');
+                 fcCityIconEl.setAttribute("src", "https://openweathermap.org/img/wn/" + data.list[4].weather[0].icon + "@2x.png");
+                 fcCityTempEl.textContent = "Temp: " + Math.round(data.list[4].main.temp) + "°F";
+                 fcCityWindEl.textContent = "Wind: " + Math.round(data.list[4].wind.speed) + " mph";
+                 fcCityHumidityEl.textContent = "Humidity: " + Math.round(data.list[4].main.humidity) + "%"; 
+        });
+    })
+    searchHistoryRender();
 };
+  
 
 
 fetchButton.addEventListener('click', getApi);
+

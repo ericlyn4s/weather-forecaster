@@ -9,6 +9,10 @@ button, input {
     margin-bottom: 8px;
 }
 
+button, #city-block {
+    background-color: lightblue;
+}
+
 #search-area {
     border-bottom: solid gray;
     padding-bottom: 10px;
@@ -30,8 +34,12 @@ button, input {
 
 .five-forecasts {
     border: solid gray;
+    background-color: lightblue;
     margin: 8px;
     height: 300px;
 }
 
+#one-date, #two-date, #three-date, #four-date, #five-date {
+    font-weight: bold;
+}
 
