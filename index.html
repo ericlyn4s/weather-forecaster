@@ -18,7 +18,7 @@
     <div class="row">
         <div class="col-3 m-4">
             <h3><b>Search for a City:</b></h3>
-            <input placeholder="Denver">
+            <input id="city-input" placeholder="Denver">
             <section id="search-area">
                 <button class="search mt-2 bg-info" id="fetch-button" style="display: block;">Search</button>
             </section>
@@ -26,13 +26,54 @@
             </div>
         </div>
         <div class="col">
-            <div class="row m-4" id="city-block">
-                <h3 id="city-name"><b></b></h3>
+            <div class="row m-4 p-2" id="city-block">
+                <div class="container">
+                    <h3 id="city-name"></h3><img style="max-width:8%;" id="current-icon">
+                </div>
                 <h4 id="city-temp">Temp: </h4>
                 <h4 id="city-wind">Wind: </h4>
-                <h4 id="city-humidity">Hunidity: </h4>
+                <h4 id="city-humidity">Humidity: </h4>
+                
             </div>
-            <div class="row m-4" id="five-forecast">   
+            <div class="row m-4" id="forecasts">
+                <h3 style="margin-top: 3px;">5-Day Forecast:</h3>
+                    <div class="col five-forecasts">
+                        <h6 id="one-date"><b></b></h6>
+                        <img style="max-width:33%;" id="one-icon">
+                        <h6 id="one-temp"></h6>
+                        <h6 id="one-wind"></h6>
+                        <h6 id="one-humidity"></h6>
+                        
+                    </div>
+                    <div class="col five-forecasts">
+                        <h2 id="two-date"><b></b></h2>
+                        <img style="max-width:15%;" id="two-icon">
+                        <h3 id="two-temp"></h3>
+                        <h3 id="two-wind"></h3>
+                        <h3 id="two-humidity"></h3>
+                    </div>
+                    <div class="col five-forecasts">
+                        <h2 id="three-date"><b></b></h2>
+                        <img style="max-width:8%;" id="three-icon">
+                        <h3 id="three-temp"></h3>
+                        <h3 id="three-wind"></h3>
+                        <h3 id="three-humidity"></h3>
+                    </div>
+                    <div class="col five-forecasts">
+                        <h2 id="four-date"><b></b></h2>
+                        <img style="max-width:8%;" id="four-icon">
+                        <h3 id="four-temp"></h3>
+                        <h3 id="four-wind"></h3>
+                        <h3 id="four-humidity"></h3>
+                    </div>
+                    <div class="col five-forecasts">
+                        <h2 id="five-date"><b></b></h2>
+                        <img style="max-width:8%;" id="five-icon">
+                        <h3 id="five-temp"></h3>
+                        <h3 id="five-wind"></h3>
+                        <h3 id="five-humidity"></h3>
+                    </div>
+            </div>  
         </div>
     </div>
     </div>

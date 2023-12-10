@@ -18,6 +18,20 @@ button, input {
     padding-top: 10px;
 }
 
-#city-block, #five-forecast {
+#city-block, #forecasts {
     border: solid gray;
+    padding: 10px;
 }
+
+#city-name, img {
+    display: inline;
+    font-weight: bold;
+}
+
+.five-forecasts {
+    border: solid gray;
+    margin: 8px;
+    height: 300px;
+}
+
+
