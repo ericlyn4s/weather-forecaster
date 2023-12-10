@@ -57,7 +57,7 @@ function getApi(city) {
         cityTempEl.textContent = "Temp: ";
         cityWindEl.textContent = "Wind: ";
         cityHumidityEl.textContent = "Humidity: ";
-        // Populate divs with new city weather variables
+        // Populate divs with new city weather variables, using day.js to create the proper date formatting here and below
         cityNameEl.textContent = city.charAt(0).toUpperCase() + city.slice(1) + ", " + state + " (" + dayjs().format('MM/DD/YYYY') + ")";
         cityTempEl.textContent += temp + "°F";
         cityWindEl.textContent += wind + " mph";
