@@ -2,6 +2,7 @@
     font-family: Georgia, 'Times New Roman', Times, serif
 }
 
+/* Set button and input section to be the same width/size */
 button, input {
     width: 100%;
     height: 40px;
@@ -13,6 +14,7 @@ button, #city-block {
     background-color: lightblue;
 }
 
+/* Make search area a solid gray format */
 #search-area {
     border-bottom: solid gray;
     padding-bottom: 10px;
@@ -32,6 +34,7 @@ button, #city-block {
     font-weight: bold;
 }
 
+/* Five forcast section all has a gray border with a light blue background */
 .five-forecasts {
     border: solid gray;
     background-color: lightblue;

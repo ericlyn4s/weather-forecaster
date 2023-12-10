@@ -9,6 +9,7 @@
 </head>
 <body>
     <header>
+        <!---Use Bootstrap to create and format a header -->
         <div class="row p-2 bg-info">
            <div class="d-flex justify-content-center">
                 <h2><b>Weather Dashboard</b></h2>
@@ -18,6 +19,7 @@
     <div class="row">
         <div class="col-3 m-4">
             <h3><b>Search for a City:</b></h3>
+            <!--- Search area defaults to Denver -->
             <input id="city-input" placeholder="Denver">
             <section id="search-area">
                 <button class="search mt-2 bg-info" id="fetch-button" style="display: block;">Search</button>
@@ -28,6 +30,7 @@
         <div class="col">
             <div class="row m-4 p-2" id="city-block">
                 <div class="container">
+                    <!---Ensure weather icon for current temperature doesn't exceed a certain width -->
                     <h3 id="city-name"></h3><img style="max-width:8%;" id="current-icon">
                 </div>
                 <h4 id="city-temp">Temp: </h4>
@@ -36,6 +39,7 @@
                 
             </div>
             <div class="row m-4" id="forecasts">
+                <!--- Create a row first, then nest 5 columns within for each day of the 5-day forecast section -->
                 <h3 style="margin-top: 3px;">5-Day Forecast:</h3>
                     <div class="col five-forecasts">
                         <h6 id="one-date"><b></b></h6>
@@ -76,6 +80,7 @@
         </div>
     </div>
     </div>
+    <!---Link JQuery and JavaScript page -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script
       src="https://cdn.jsdelivr.net/npm/dayjs@1.11.3/dayjs.min.js"
