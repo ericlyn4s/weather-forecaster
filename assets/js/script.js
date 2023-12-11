@@ -65,7 +65,7 @@ function getApi(city) {
     }
 
     // Get lat and long coordinates of city
-    var latLonQuery = "http://api.openweathermap.org/geo/1.0/direct?q=" + city + "&limit=1&appid=" + APIKey;
+    var latLonQuery = "https://api.openweathermap.org/geo/1.0/direct?q=" + city + "&limit=1&appid=" + APIKey;
     fetch(latLonQuery) 
         .then(function (response) {
             return response.json()
@@ -86,7 +86,7 @@ function getApi(city) {
                 currentCityRender();
             })
             // Pass lat and long coordinated into five-day forecast query
-            var fiveForecastQuery = "http://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&appid=" + APIKey + "&units=imperial";
+            var fiveForecastQuery = "https://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&appid=" + APIKey + "&units=imperial";
             fetch(fiveForecastQuery)
             .then(function (response) {
                 return response.json()
